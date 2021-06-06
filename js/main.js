@@ -1,23 +1,14 @@
 const maxStringLength = 140;
 
-const getRandomValue = (minValue, maxValue) => {
-  if (minValue < 0) {
-    throw new RangeError('The minimum value must be greater than 0');
+const getRandomNumber = function (min, max) {
+  if (max > min && min >= 0 && max > 0) {
+    return Math.floor(min + Math.random() * (max + 1 - min));
   }
 
-  if (maxValue <= minValue) {
-    throw new RangeError('The minimum value must be less than the maximum');
-  }
-
-  return Math.round(Math.random() * (maxValue - minValue) + minValue);
+  throw new RangeError('error here');
 };
 
-try {
-  getRandomValue(0, 1);
-} catch (err) {
-  //console.log(err);
-}
-
+getRandomNumber(2, 5);
 
 const checkStringLength = (string, maxLength) => string.length <= maxLength;
 
