@@ -5,7 +5,7 @@ const MIN_LIKES = 15;
 const MAX_LIKES = 200;
 const MIN_AVATAR = 1;
 const MAX_AVATAR = 6;
-//const PHOTO_DESCRIPTION_COUNT = 25;
+const PHOTO_DESCRIPTION_COUNT = 25;
 const MESSAGES = [
   'Всё отлично!',
   'В целом всё неплохо. Но не всё.',
@@ -15,8 +15,6 @@ const MESSAGES = [
   'Лица у людей на фотке перекошены, как будто их избивают. Как можно было поймать такой неудачный момент?!',
 ];
 const NAMES = ['Vasya', 'Alice', 'Jake', 'Nastya', 'Dima', 'Tom'];
-const descriptionIdes = [];
-const commentIdes = [];
 
 const getRandomNumber = function (min, max) {
   if (max > min && min >= 0 && max > 0) {
@@ -34,34 +32,30 @@ checkStringLength(
 
 const isUnique = (array, value) => !array.includes(value);
 
-const createId = (array, minId, maxId) => {
-  let id = getRandomNumber(minId, maxId);
-  const check = true; //npm указывает на ошибку в цикле, если там написать просто true
-
-  while (check) {
-    if (isUnique(array, id)) {
-      break;
-    }
-
-    id = getRandomNumber(minId, maxId);
-  }
-
-  array.push(id);
-
-  return id;
+const generateId = () => {
+  const ids = [];
+  return function getId(min, max) {
+    const random = getRandomNumber(min, max);
+    const id = isUnique(ids, random) ? random : getId(min, max);
+    ids.push(id);
+    return id;
+  };
 };
 
+const descIdGenerator = generateId();
+
 const createPhotoDescription = (description = '') => {
-  const descriptionId = createId(descriptionIdes, MIN_ID, MAX_ID);
+  const descId = descIdGenerator(MIN_ID, MAX_ID);
+  const commentIdGenerator = generateId();
 
   return {
-    id: descriptionId,
-    url: `photos/${descriptionId}.jpg`,
+    id: descId,
+    url: `photos/${descId}.jpg`,
     description: description,
     likes: getRandomNumber(MIN_LIKES, MAX_LIKES),
     comment: [
       {
-        id: createId(commentIdes, MIN_ID, MESSAGES.length),
+        id: commentIdGenerator(MIN_ID, MESSAGES.length),
         avatar: `img/avatar-${getRandomNumber(MIN_AVATAR, MAX_AVATAR)}.svg`,
         message: MESSAGES[getRandomNumber(0, MESSAGES.length - 1)],
         name: NAMES[getRandomNumber(0, NAMES.length - 1)],
@@ -72,5 +66,6 @@ const createPhotoDescription = (description = '') => {
 
 createPhotoDescription('good morning');
 
-//когда происходит выполнение 71 строки - сервер виснет, на 68 строке - все нормально, чтобы проверить нужно раскомментировать 8 строку
-//const photoDescriptions = new Array(PHOTO_DESCRIPTION_COUNT).fill(null).map(()=>createPhotoDescription('Good morning'));
+const photoDescriptions = new Array(PHOTO_DESCRIPTION_COUNT).fill(null).map(()=>createPhotoDescription('Good morning'));
+
+photoDescriptions;
