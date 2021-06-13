@@ -1,6 +1,6 @@
 import { PHOTO_DESCRIPTION_COUNT } from './constants.js';
-import { generateId } from './generateId.js';
-import { createPhotoDescription } from './createPhotoDescription.js';
+import { generateId } from './utils.js';
+import { createPhotoDescription } from './data.js';
 
 const descIdGenerator = generateId();
 

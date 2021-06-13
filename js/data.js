@@ -1,6 +1,6 @@
 import { MAX_AVATAR, MAX_ID, MAX_LIKES, MESSAGES, MIN_AVATAR, MIN_ID, MIN_LIKES, NAMES } from './constants.js';
-import { generateId } from './generateId.js';
-import {getRandomNumber} from './getRandomNumber.js';
+import { generateId } from './utils.js';
+import {getRandomNumber} from './utils.js';
 
 const createPhotoDescription = (description = '', options) => {
   const descId = options.generatorId(MIN_ID, MAX_ID);
