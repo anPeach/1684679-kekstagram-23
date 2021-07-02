@@ -1,4 +1,4 @@
-import {photoDescriptions} from './data.js';
+//import {photoDescriptions} from './data.js';
 
 // const fullPhotoList = photoDescriptions();
 
