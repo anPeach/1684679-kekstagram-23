@@ -1,4 +1,4 @@
-import {MAX_STRING_LENGTH} from './constants.js';
+import { MAX_STRING_LENGTH } from './constants.js';
 
 const checkStringLength = (string, maxLength) => string.length <= maxLength;
 checkStringLength(
@@ -26,7 +26,13 @@ const generateId = () => {
   };
 };
 
-export {checkStringLength};
-export {getRandomNumber};
-export {isUnique};
-export { generateId };
+const addClass = (node, className) => {
+  node.classList.add(className);
+};
+
+const removeClass = (node, className) => {
+  node.classList.remove(className);
+};
+
+
+export { checkStringLength, getRandomNumber, isUnique, generateId, addClass, removeClass };
