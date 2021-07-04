@@ -1,1 +1,1 @@
-import './paintMiniatures.js';
+import './photo-preview.js';
