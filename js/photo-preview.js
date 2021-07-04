@@ -1,22 +1,22 @@
-import { photos } from "./data.js";
+import { photos } from './data.js';
 
-const picturesContainer = document.querySelector(".pictures");
+const picturesContainer = document.querySelector('.pictures');
 
 const templatePicture = document
-  .querySelector("#picture")
-  .content.querySelector(".picture");
+  .querySelector('#picture')
+  .content.querySelector('.picture');
 
 const miniaturesListFragment = document.createDocumentFragment();
 
 const createMiniature = (node, options) => {
   const { id, url, likes, comments } = options;
 
-  const img = node.querySelector(".picture__img");
+  const img = node.querySelector('.picture__img');
   img.dataset.id = id;
   img.src = url;
 
-  node.querySelector(".picture__comments").textContent = comments.length;
-  node.querySelector(".picture__likes").textContent = likes;
+  node.querySelector('.picture__comments').textContent = comments.length;
+  node.querySelector('.picture__likes').textContent = likes;
 
   return node;
 };
