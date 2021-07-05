@@ -1,6 +1,15 @@
-import { MAX_AVATAR, MAX_ID, MAX_LIKES, MESSAGES, MIN_AVATAR, MIN_ID, MIN_LIKES, NAMES } from './constants.js';
-import { generateId } from './utils.js';
-import {getRandomNumber} from './utils.js';
+import {
+  MAX_AVATAR,
+  MAX_ID,
+  MAX_LIKES,
+  MESSAGES,
+  MIN_AVATAR,
+  MIN_ID,
+  MIN_LIKES,
+  NAMES,
+  PHOTO_DESCRIPTION_COUNT
+} from './constants.js';
+import { generateId, getRandomNumber } from './utils.js';
 
 const createPhotoDescription = (description = '', options) => {
   const descId = options.generatorId(MIN_ID, MAX_ID);
@@ -11,7 +20,7 @@ const createPhotoDescription = (description = '', options) => {
     url: `photos/${descId}.jpg`,
     description: description,
     likes: getRandomNumber(MIN_LIKES, MAX_LIKES),
-    comment: [
+    comments: [
       {
         id: commentIdGenerator(MIN_ID, MESSAGES.length),
         avatar: `img/avatar-${getRandomNumber(MIN_AVATAR, MAX_AVATAR)}.svg`,
@@ -22,4 +31,12 @@ const createPhotoDescription = (description = '', options) => {
   };
 };
 
-export {createPhotoDescription};
+const descIdGenerator = generateId();
+
+const photos = new Array(PHOTO_DESCRIPTION_COUNT)
+  .fill(null)
+  .map(() =>
+    createPhotoDescription('Good morning', { generatorId: descIdGenerator }),
+  );
+
+export { photos };
