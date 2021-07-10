@@ -1,10 +1,4 @@
-import { MAX_STRING_LENGTH } from './constants.js';
-
 const checkStringLength = (string, maxLength) => string.length <= maxLength;
-checkStringLength(
-  'Hello, my name is Nastya! But some people on the internet call me AnPeach.',
-  MAX_STRING_LENGTH,
-);
 
 const getRandomNumber = function (min, max) {
   if (max > min && min >= 0 && max > 0) {
@@ -34,5 +28,34 @@ const removeClass = (node, className) => {
   node.classList.remove(className);
 };
 
+const showPopup = (hiddenNode) => {
+  addClass(document.body, 'modal-open');
+  removeClass(hiddenNode, 'hidden');
+};
 
-export { checkStringLength, getRandomNumber, isUnique, generateId, addClass, removeClass };
+const hidePopup = (shownNode) => {
+  removeClass(document.body, 'modal-open');
+  addClass(shownNode, 'hidden');
+};
+
+const closePopup = (node) => (evt) => {
+  if (evt.code === 'Escape') {
+    hidePopup(node);
+  }
+
+  if(evt.type === 'click'){
+    hidePopup(node);
+  }
+};
+
+export {
+  checkStringLength,
+  getRandomNumber,
+  isUnique,
+  generateId,
+  addClass,
+  removeClass,
+  closePopup,
+  showPopup,
+  hidePopup
+};
