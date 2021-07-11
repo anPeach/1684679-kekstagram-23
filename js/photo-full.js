@@ -1,5 +1,5 @@
 import { photos } from './data.js';
-import { addClass, removeClass } from './utils.js';
+import { addClass, showPopup, closePopup } from './utils.js';
 
 const fullPicture = document.querySelector('.big-picture');
 const commentsNode = fullPicture.querySelector('.social__comments');
@@ -61,23 +61,13 @@ pictureContainer.addEventListener('click', (evt) => {
 
   addClass(commentCount, 'hidden');
   addClass(commentLoader, 'hidden');
-  addClass(document.body, 'modal-open');
-  removeClass(fullPicture, 'hidden');
+
+  showPopup(fullPicture);
+
 });
 
-const closeFullPhoto = () => {
-  removeClass(document.body, 'modal-open');
-  addClass(fullPicture, 'hidden');
-};
-
-document.addEventListener('keydown', (evt) => {
-  if (evt.code === 'Escape') {
-    closeFullPhoto();
-  }
-});
+document.addEventListener('keydown', closePopup(fullPicture));
 
 const closeButton = fullPicture.querySelector('.big-picture__cancel');
 
-closeButton.addEventListener('click', () => {
-  closeFullPhoto();
-});
+closeButton.addEventListener('click', closePopup(fullPicture));
