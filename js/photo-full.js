@@ -1,34 +1,13 @@
 import { photos } from './data.js';
-import { addClass, showPopup, closePopup } from './utils.js';
+import { showPopup, closePopup, createComments, findPhoto, addClass, removeClass } from './utils.js';
+import {COMMENTS_STEP} from './constants.js';
+import './photo-full-comments.js';
 
 const fullPicture = document.querySelector('.big-picture');
 const commentsNode = fullPicture.querySelector('.social__comments');
 const pictureContainer = document.querySelector('.pictures');
 
-const createComment = (comment) => {
-  const commentNode = commentsNode
-    .querySelector('.social__comment')
-    .cloneNode(true);
-
-  const img = commentNode.querySelector('img');
-  img.src = comment.avatar;
-  img.alt = comment.name;
-
-  const commentText = commentNode.querySelector('p');
-  commentText.textContent = comment.message;
-
-  return commentNode;
-};
-
-const createComments = (comments) => {
-  const fragment = document.createDocumentFragment();
-
-  comments.forEach((comment) => {
-    fragment.appendChild(createComment(comment));
-  });
-
-  return fragment;
-};
+let currentOpenedPhoto = {};
 
 const renderFullPhoto = ({ url, likes, description, comments }) => {
   const img = fullPicture.querySelector('.big-picture__img>img');
@@ -40,34 +19,39 @@ const renderFullPhoto = ({ url, likes, description, comments }) => {
   const likesCount = fullPicture.querySelector('.likes-count');
   likesCount.textContent = likes;
 
-  commentsNode.replaceChildren(createComments(comments));
-};
+  const commentsCount = fullPicture.querySelector('.comments-count');
+  commentsCount.textContent = comments.length;
 
-pictureContainer.addEventListener('click', (evt) => {
-  const { target } = evt;
+  const commentsShownCount = document.querySelector('.comments-shown-count');
+  commentsShownCount.textContent = COMMENTS_STEP;
 
-  if (!target.dataset.id) {
-    return;
+  const commentLoader = document.querySelector('.comments-loader');
+  removeClass(commentLoader, 'hidden');
+
+  if(comments.length < 5){
+    commentsShownCount.textContent = comments.length;
+    addClass(commentLoader, 'hidden');
   }
 
-  const foundedPhoto = photos.find(
-    (photo) => photo.id === Number(target.dataset.id),
-  );
+  const commentsToRender = comments.slice(0, COMMENTS_STEP);
+  commentsNode.replaceChildren(createComments(commentsToRender));
+};
+
+const showPicture = (evt) => {
+  const foundedPhoto = findPhoto(evt, photos);
 
   renderFullPhoto(foundedPhoto);
-
-  const commentCount = fullPicture.querySelector('.social__comment-count');
-  const commentLoader = fullPicture.querySelector('.comments-loader');
-
-  addClass(commentCount, 'hidden');
-  addClass(commentLoader, 'hidden');
+  currentOpenedPhoto = foundedPhoto;
 
   showPopup(fullPicture);
+};
 
-});
+pictureContainer.addEventListener('click', showPicture);
 
 document.addEventListener('keydown', closePopup(fullPicture));
 
 const closeButton = fullPicture.querySelector('.big-picture__cancel');
 
 closeButton.addEventListener('click', closePopup(fullPicture));
+
+export {currentOpenedPhoto};

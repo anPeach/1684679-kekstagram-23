@@ -20,6 +20,45 @@ const generateId = () => {
   };
 };
 
+const createComment = (comment) => {
+  const commentNode = document
+    .querySelector('.social__comment')
+    .cloneNode(true);
+
+  const img = commentNode.querySelector('img');
+  img.src = comment.avatar;
+  img.alt = comment.name;
+
+  const commentText = commentNode.querySelector('p');
+  commentText.textContent = comment.message;
+
+  return commentNode;
+};
+
+const createComments = (comments) => {
+  const fragment = document.createDocumentFragment();
+
+  comments.forEach((comment) => {
+    fragment.appendChild(createComment(comment));
+  });
+
+  return fragment;
+};
+
+const findPhoto = (evt, photos) => {
+  const { target } = evt;
+
+  if (!target.dataset.id) {
+    return;
+  }
+
+  const foundedPhoto = photos.find(
+    (photo) => photo.id === Number(target.dataset.id),
+  );
+
+  return foundedPhoto;
+};
+
 const addClass = (node, className) => {
   node.classList.add(className);
 };
@@ -57,5 +96,7 @@ export {
   removeClass,
   closePopup,
   showPopup,
-  hidePopup
+  hidePopup,
+  createComments,
+  findPhoto
 };
