@@ -20,7 +20,7 @@ const generateId = () => {
   };
 };
 
-const createComment = (comment) => {
+const renderComment = (comment) => {
   const commentNode = document
     .querySelector('.social__comment')
     .cloneNode(true);
@@ -35,11 +35,11 @@ const createComment = (comment) => {
   return commentNode;
 };
 
-const createComments = (comments) => {
+const renderComments = (comments) => {
   const fragment = document.createDocumentFragment();
 
   comments.forEach((comment) => {
-    fragment.appendChild(createComment(comment));
+    fragment.appendChild(renderComment(comment));
   });
 
   return fragment;
@@ -97,6 +97,6 @@ export {
   closePopup,
   showPopup,
   hidePopup,
-  createComments,
+  renderComments as createComments,
   findPhoto
 };

@@ -1,13 +1,43 @@
 import { photos } from './data.js';
-import { showPopup, closePopup, createComments, findPhoto, addClass, removeClass } from './utils.js';
-import {COMMENTS_STEP} from './constants.js';
-import './photo-full-comments.js';
+import {
+  addClass,
+  closePopup,
+  findPhoto,
+  removeClass,
+  renderComments,
+  showPopup
+} from './utils.js';
+import { COMMENTS_STEP } from './constants.js';
 
 const fullPicture = document.querySelector('.big-picture');
-const commentsNode = fullPicture.querySelector('.social__comments');
 const pictureContainer = document.querySelector('.pictures');
+const closeButton = fullPicture.querySelector('.big-picture__cancel');
+
+const commentsContainer = fullPicture.querySelector('.social__comments');
+const commentsList = commentsContainer.childNodes;
+const commentLoader = fullPicture.querySelector('.comments-loader');
+const commentsShownCount = fullPicture.querySelector('.comments-shown-count');
 
 let currentOpenedPhoto = {};
+
+const loadMoreClick = () => {
+  const amountShownComments = commentsList.length + COMMENTS_STEP;
+
+  const commentsToRender = currentOpenedPhoto.comments.slice(
+    0,
+    amountShownComments,
+  );
+
+  commentsContainer.replaceChildren(renderComments(commentsToRender));
+
+  commentsShownCount.textContent = commentsToRender.length;
+
+  if (commentsToRender.length === currentOpenedPhoto.comments.length) {
+    addClass(commentLoader, 'hidden');
+  }
+};
+
+commentLoader.addEventListener('click', loadMoreClick);
 
 const renderFullPhoto = ({ url, likes, description, comments }) => {
   const img = fullPicture.querySelector('.big-picture__img>img');
@@ -22,19 +52,17 @@ const renderFullPhoto = ({ url, likes, description, comments }) => {
   const commentsCount = fullPicture.querySelector('.comments-count');
   commentsCount.textContent = comments.length;
 
-  const commentsShownCount = document.querySelector('.comments-shown-count');
   commentsShownCount.textContent = COMMENTS_STEP;
 
-  const commentLoader = document.querySelector('.comments-loader');
   removeClass(commentLoader, 'hidden');
 
-  if(comments.length < 5){
+  if (comments.length < COMMENTS_STEP) {
     commentsShownCount.textContent = comments.length;
     addClass(commentLoader, 'hidden');
   }
 
   const commentsToRender = comments.slice(0, COMMENTS_STEP);
-  commentsNode.replaceChildren(createComments(commentsToRender));
+  commentsContainer.replaceChildren(renderComments(commentsToRender));
 };
 
 const showPicture = (evt) => {
@@ -50,8 +78,6 @@ pictureContainer.addEventListener('click', showPicture);
 
 document.addEventListener('keydown', closePopup(fullPicture));
 
-const closeButton = fullPicture.querySelector('.big-picture__cancel');
-
 closeButton.addEventListener('click', closePopup(fullPicture));
 
-export {currentOpenedPhoto};
+export { currentOpenedPhoto };
