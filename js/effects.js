@@ -1,10 +1,10 @@
-import { addClass, removeClass } from "./utils.js";
+import { addClass, removeClass } from './utils.js';
 
-const effectsList = document.querySelector(".effects__list");
-const imgPreview = document.querySelector(".img-upload__preview>img");
+const effectsList = document.querySelector('.effects__list');
+const imgPreview = document.querySelector('.img-upload__preview>img');
 const sliderLevel = document.querySelector('.img-upload__effect-level');
-const slider = document.querySelector(".effect-level__slider");
-const effectValue = document.querySelector(".effect-level__value");
+const slider = document.querySelector('.effect-level__slider');
+const effectValue = document.querySelector('.effect-level__value');
 
 let activeFilter = {};
 
@@ -76,7 +76,7 @@ noUiSlider.create(slider, {
   start: 0,
 });
 
-slider.noUiSlider.on("update", (_, handle, unencoded) => {
+slider.noUiSlider.on('update', (_, handle, unencoded) => {
   const value = unencoded[handle];
   if (!value) {
     return;
@@ -96,7 +96,7 @@ const changeRadioButton = (evt) => {
 
   addClass(imgPreview, `effects__preview--${filterName}`);
 
-  if (filterName === "none") {
+  if (filterName === 'none') {
     activeFilter.action();
     return;
   }
@@ -112,4 +112,4 @@ const changeRadioButton = (evt) => {
   });
 };
 
-effectsList.addEventListener("change", changeRadioButton);
+effectsList.addEventListener('change', changeRadioButton);
