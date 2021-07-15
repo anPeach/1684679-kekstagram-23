@@ -8,6 +8,7 @@ import {
   showPopup
 } from './utils.js';
 import { COMMENTS_STEP } from './constants.js';
+import './effects.js';
 
 const fullPicture = document.querySelector('.big-picture');
 const pictureContainer = document.querySelector('.pictures');
@@ -67,6 +68,10 @@ const renderFullPhoto = ({ url, likes, description, comments }) => {
 
 const showPicture = (evt) => {
   const foundedPhoto = findPhoto(evt, photos);
+
+  if(!foundedPhoto) {
+    return;
+  }
 
   renderFullPhoto(foundedPhoto);
   currentOpenedPhoto = foundedPhoto;

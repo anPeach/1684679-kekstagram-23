@@ -97,6 +97,6 @@ export {
   closePopup,
   showPopup,
   hidePopup,
-  renderComments as createComments,
+  renderComments,
   findPhoto
 };
