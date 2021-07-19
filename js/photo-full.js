@@ -1,4 +1,3 @@
-import { photos } from './data.js';
 import {
   addClass,
   closePopup,
@@ -9,6 +8,7 @@ import {
 } from './utils.js';
 import { COMMENTS_STEP } from './constants.js';
 import './effects.js';
+import { fetched } from './main.js';
 
 const fullPicture = document.querySelector('.big-picture');
 const pictureContainer = document.querySelector('.pictures');
@@ -67,7 +67,7 @@ const renderFullPhoto = ({ url, likes, description, comments }) => {
 };
 
 const showPicture = (evt) => {
-  const foundedPhoto = findPhoto(evt, photos);
+  const foundedPhoto = findPhoto(evt, fetched);
 
   if(!foundedPhoto) {
     return;
