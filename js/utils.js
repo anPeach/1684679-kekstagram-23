@@ -1,7 +1,5 @@
 import { ALERT_SHOW_TIME } from './constants.js';
 
-const checkStringLength = (string, maxLength) => string.length <= maxLength;
-
 const getRandomNumber = function (min, max) {
   if (max > min && min >= 0 && max > 0) {
     return Math.floor(min + Math.random() * (max + 1 - min));
@@ -84,7 +82,7 @@ const closePopup = (node) => (evt) => {
     hidePopup(node);
   }
 
-  if(evt.type === 'click'){
+  if (evt.type === 'click') {
     hidePopup(node);
   }
 };
@@ -110,17 +108,33 @@ const showAlert = (message) => {
   }, ALERT_SHOW_TIME);
 };
 
+const shuffle = (array) => array.slice().sort(() => Math.random() - 0.5);
+
+const clearPreviews = (photos) => {
+  for (let index = photos.length - 1; index >= 0; index--) {
+    photos[index].remove();
+  }
+};
+
+const getPhotoRate = (photo) => photo.comments.length;
+
+const getRatedPhotos = (photos) =>
+  photos.slice().sort((pic1, pic2) => getPhotoRate(pic2) - getPhotoRate(pic1));
+
 export {
-  checkStringLength,
-  getRandomNumber,
-  isUnique,
-  generateId,
   addClass,
-  removeClass,
+  clearPreviews,
   closePopup,
-  showPopup,
-  hidePopup,
-  renderComments,
   findPhoto,
-  showAlert
+  generateId,
+  getRandomNumber,
+  hidePopup,
+  isUnique,
+  removeClass,
+  renderComments,
+  showAlert,
+  showPopup,
+  shuffle,
+  getPhotoRate,
+  getRatedPhotos
 };
