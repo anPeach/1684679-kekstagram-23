@@ -2,18 +2,21 @@ import { addClass, removeClass } from './utils.js';
 
 const effectsList = document.querySelector('.effects__list');
 const imgPreview = document.querySelector('.img-upload__preview>img');
-const sliderLevel = document.querySelector('.img-upload__effect-level');
+const sliderContainer = document.querySelector('.img-upload__effect-level');
 const slider = document.querySelector('.effect-level__slider');
 const effectValue = document.querySelector('.effect-level__value');
 
+const effectNone = effectsList.querySelector('#effect-none');
+
 let activeFilter = {};
+
+addClass(sliderContainer, 'hidden');
 
 const filters = {
   none: {
     action: () => {
       imgPreview.style.filter = 'none';
-      addClass(slider, 'hidden');
-      addClass(sliderLevel, 'hidden');
+      addClass(sliderContainer, 'hidden');
     },
   },
   chrome: {
@@ -101,9 +104,8 @@ const changeRadioButton = (evt) => {
     return;
   }
 
-  removeClass(sliderLevel, 'hidden');
   removeClass(slider, 'hidden');
-
+  removeClass(sliderContainer, 'hidden');
 
   slider.noUiSlider.updateOptions({
     range: activeFilter.config.range,
@@ -113,3 +115,10 @@ const changeRadioButton = (evt) => {
 };
 
 effectsList.addEventListener('change', changeRadioButton);
+
+const clearEffects = () => {
+  imgPreview.style.filter = filters.none.action();
+  effectNone.checked = true;
+};
+
+export {clearEffects};

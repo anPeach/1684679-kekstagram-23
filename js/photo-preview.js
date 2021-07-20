@@ -1,5 +1,3 @@
-import { photos } from './data.js';
-
 const picturesContainer = document.querySelector('.pictures');
 
 const templatePicture = document
@@ -10,7 +8,6 @@ const miniaturesListFragment = document.createDocumentFragment();
 
 const createMiniature = (node, options) => {
   const { id, url, likes, comments } = options;
-
   const img = node.querySelector('.picture__img');
   img.dataset.id = id;
   img.src = url;
@@ -23,7 +20,7 @@ const createMiniature = (node, options) => {
 
 const renderMiniature = (container, child) => container.appendChild(child);
 
-const renderPhotos = () => {
+const renderPhotos = (photos) => {
   photos.forEach(({ id, url, likes, comments }) => {
     const miniature = createMiniature(templatePicture.cloneNode(true), {
       id,
