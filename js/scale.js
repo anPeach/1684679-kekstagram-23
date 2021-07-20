@@ -45,5 +45,14 @@ const biggerClick = () => {
   changeValue();
 };
 
+const setDefaultScale = () => {
+  const img = imgUpload.querySelector('img');
+
+  scaleValue.value = '100%';
+  img.style.transform = 'scale(1)';
+};
+
 scaleSmaller.addEventListener('click', smallerClick);
 scaleBigger.addEventListener('click', biggerClick);
+
+export {setDefaultScale};
