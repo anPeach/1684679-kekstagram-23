@@ -1,5 +1,5 @@
-import { hidePopup, showPopup} from './utils.js';
-import {clearForm} from './form.js';
+import { hidePopup, showPopup } from './utils.js';
+import { clearForm } from './form.js';
 
 const uploadInput = document.querySelector('#upload-file');
 const cancelButton = document.querySelector('#upload-cancel');

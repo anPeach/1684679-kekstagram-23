@@ -1,8 +1,14 @@
 import { SERVER_PATH } from './constants.js';
 
+let photos = [];
+
 const getPhotos = (onSuccess) =>
   fetch(`${SERVER_PATH}/data`)
     .then((response) => response.json())
+    .then((res) => {
+      photos = res;
+      return res;
+    })
     .then(onSuccess);
 
 const sendData = (onSuccess, onFail, body) => {
@@ -22,4 +28,4 @@ const sendData = (onSuccess, onFail, body) => {
     });
 };
 
-export { getPhotos, sendData };
+export { getPhotos, sendData, photos };

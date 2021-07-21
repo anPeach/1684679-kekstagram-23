@@ -6,6 +6,7 @@ import { hidePopup, showAlert } from './utils.js';
 import { sendData } from './api.js';
 import { clearEffects } from './effects.js';
 import { addCloseErrorMessageEvtListener } from './messages.js';
+import { setDefaultScale } from './scale.js';
 
 const form = document.querySelector('.img-upload__form');
 
@@ -32,6 +33,7 @@ const clearForm = () => {
   hashtagInput.value = '';
   commentInput.value = '';
   clearEffects();
+  setDefaultScale();
 };
 
 const closeForm = (evt) => {

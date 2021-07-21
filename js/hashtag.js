@@ -15,7 +15,8 @@ const isUniqueHashtags = (hashtags) => {
 const hasValidationErrors = (hashtags) =>
   hashtags.filter((hashtag) => !HASHTAG_VALIDATION_REGEXP.test(hashtag)).length;
 
-const isMaximumHashtagsCount = (hashtags) => hashtags.length > MAX_HASHTAGS_COUNT;
+const isMaximumHashtagsCount = (hashtags) =>
+  hashtags.length > MAX_HASHTAGS_COUNT;
 
 const setUniqueError = () => {
   hashtagInput.setCustomValidity('Хэштеги должны быть уникальны.');
@@ -28,7 +29,9 @@ const setValidationError = () => {
 };
 
 const setHashtagsCountError = () => {
-  hashtagInput.setCustomValidity('Максимально возможное количество хэштегов: 5.');
+  hashtagInput.setCustomValidity(
+    'Максимально возможное количество хэштегов: 5.',
+  );
   hashtagInput.value = prevHashtagValue;
 };
 
@@ -43,7 +46,6 @@ const inputChange = () => {
 
   hashtagInput.reportValidity();
   prevHashtagValue = hashtagInput.value;
-
 };
 
 hashtagInput.addEventListener('input', inputChange);

@@ -2,7 +2,8 @@ import { MAX_STRING_LENGTH } from './constants.js';
 
 const commentTextarea = document.querySelector('.text__description');
 
-const isTextareaInRange = () => commentTextarea.value.length === MAX_STRING_LENGTH;
+const isTextareaInRange = () =>
+  commentTextarea.value.length === MAX_STRING_LENGTH;
 
 const setLengthError = () => {
   commentTextarea.setCustomValidity(

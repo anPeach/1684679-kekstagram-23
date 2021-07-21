@@ -1,4 +1,4 @@
-import {MIN_SCALE_VALUE, MAX_SCALE_VALUE} from './constants.js';
+import { MIN_SCALE_VALUE, MAX_SCALE_VALUE } from './constants.js';
 
 const uploadScale = document.querySelector('.img-upload__scale');
 
@@ -8,20 +8,19 @@ const scaleValue = uploadScale.querySelector('.scale__control--value');
 
 const imgUpload = document.querySelector('.img-upload__preview');
 
-const getValue = ({value}) =>  Number(value.substring(0, value.length - 1));
+const getValue = ({ value }) => Number(value.substring(0, value.length - 1));
 
 const changeValue = () => {
   const img = imgUpload.querySelector('img');
   const value = getValue(scaleValue);
 
   img.style.transform = `scale(${value / 100})`;
-
 };
 
 const smallerClick = () => {
   const value = getValue(scaleValue);
 
-  if(value === MIN_SCALE_VALUE) {
+  if (value === MIN_SCALE_VALUE) {
     return;
   }
 
@@ -35,7 +34,7 @@ const smallerClick = () => {
 const biggerClick = () => {
   const value = getValue(scaleValue);
 
-  if(value === MAX_SCALE_VALUE){
+  if (value === MAX_SCALE_VALUE) {
     return;
   }
 
@@ -46,6 +45,14 @@ const biggerClick = () => {
   changeValue();
 };
 
+const setDefaultScale = () => {
+  const img = imgUpload.querySelector('img');
+
+  scaleValue.value = '100%';
+  img.style.transform = 'scale(1)';
+};
 
 scaleSmaller.addEventListener('click', smallerClick);
 scaleBigger.addEventListener('click', biggerClick);
+
+export {setDefaultScale};

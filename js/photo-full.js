@@ -69,7 +69,7 @@ const renderFullPhoto = ({ url, likes, description, comments }) => {
 const showPicture = (evt) => {
   const foundedPhoto = findPhoto(evt, fetched);
 
-  if(!foundedPhoto) {
+  if (!foundedPhoto) {
     return;
   }
 

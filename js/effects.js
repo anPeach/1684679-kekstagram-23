@@ -121,4 +121,4 @@ const clearEffects = () => {
   effectNone.checked = true;
 };
 
-export {clearEffects};
+export { clearEffects };
