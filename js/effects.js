@@ -14,13 +14,13 @@ addClass(sliderContainer, 'hidden');
 
 const filters = {
   none: {
-    action: () => {
+    act: () => {
       imgPreview.style.filter = 'none';
       addClass(sliderContainer, 'hidden');
     },
   },
   chrome: {
-    action: (value) => `grayscale(${value})`,
+    act: (value) => `grayscale(${value})`,
     config: {
       range: {
         min: 0,
@@ -30,7 +30,7 @@ const filters = {
     },
   },
   sepia: {
-    action: (value) => `sepia(${value})`,
+    act: (value) => `sepia(${value})`,
     config: {
       range: {
         min: 0,
@@ -40,7 +40,7 @@ const filters = {
     },
   },
   marvin: {
-    action: (value) => `invert(${value}%)`,
+    act: (value) => `invert(${value}%)`,
     config: {
       range: {
         min: 0,
@@ -50,7 +50,7 @@ const filters = {
     },
   },
   phobos: {
-    action: (value) => `blur(${value}px)`,
+    act: (value) => `blur(${value}px)`,
     config: {
       range: {
         min: 0,
@@ -60,10 +60,10 @@ const filters = {
     },
   },
   heat: {
-    action: (value) => `brightness(${value})`,
+    act: (value) => `brightness(${value})`,
     config: {
       range: {
-        min: 0,
+        min: 1,
         max: 3,
       },
       step: 0.1,
@@ -85,10 +85,10 @@ slider.noUiSlider.on('update', (_, handle, unencoded) => {
     return;
   }
   effectValue.value = value;
-  imgPreview.style.filter = activeFilter.action(value);
+  imgPreview.style.filter = activeFilter.act(value);
 });
 
-const changeRadioButton = (evt) => {
+const changeRadioButtonListener = (evt) => {
   if (!evt.target.matches('input[type="radio"]')) {
     return;
   }
@@ -100,7 +100,7 @@ const changeRadioButton = (evt) => {
   addClass(imgPreview, `effects__preview--${filterName}`);
 
   if (filterName === 'none') {
-    activeFilter.action();
+    activeFilter.act();
     return;
   }
 
@@ -114,11 +114,16 @@ const changeRadioButton = (evt) => {
   });
 };
 
-effectsList.addEventListener('change', changeRadioButton);
+const addEffectsListEvtListener = () =>
+  effectsList.addEventListener('change', changeRadioButtonListener);
+
+const removeEffectsListEvtListener = () =>
+  effectsList.removeEventListener('change', changeRadioButtonListener);
 
 const clearEffects = () => {
-  imgPreview.style.filter = filters.none.action();
+  imgPreview.style.filter = filters.none.act();
   effectNone.checked = true;
+  effectsList.removeEventListener('change', changeRadioButtonListener);
 };
 
-export { clearEffects };
+export { clearEffects, changeRadioButtonListener, addEffectsListEvtListener, removeEffectsListEvtListener };

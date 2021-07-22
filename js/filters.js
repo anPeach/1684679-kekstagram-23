@@ -1,5 +1,5 @@
-import { photos } from './api.js';
 import { RE_RENDER_DELAY } from './constants.js';
+import { fetched } from './main.js';
 import { renderPhotos } from './photo-preview.js';
 import {
   addClass,
@@ -13,60 +13,59 @@ import { debounce } from './utils/debounce.js';
 const filterContainer = document.querySelector('.img-filters');
 const filterButtons = filterContainer.querySelectorAll('.img-filters__button');
 const picturesContainer = document.querySelector('.pictures');
-const picturesList = picturesContainer.getElementsByTagName('a');
+const pictures = picturesContainer.getElementsByTagName('a');
 
-const activeButtonClass = 'img-filters__button--active';
+const ACTIVE_BUTTON_CLASS = 'img-filters__button--active';
 
-const randomizePhotos = (photosList) => shuffle(photosList).slice(0, 10);
+const randomizePhotos = (photos) => shuffle(photos).slice(0, 10);
 
-const discussedRenderPhotos = (photosList) =>
-  getRatedPhotos(photosList).slice(0, 10);
+const discussedRenderPhotos = (photos) =>
+  getRatedPhotos(photos).slice(0, 10);
 
 const filters = {
-  default: (photosList) => renderPhotos(photosList),
-  random: (photosList) => renderPhotos(randomizePhotos(photosList)),
-  discussed: (photosList) => renderPhotos(discussedRenderPhotos(photosList)),
+  default: (photos) => renderPhotos(photos),
+  random: (photos) => renderPhotos(randomizePhotos(photos)),
+  discussed: (photos) => renderPhotos(discussedRenderPhotos(photos)),
 };
 
-const findPreviousActive = () => {
-  let previousButton = {};
-
-  filterButtons.forEach((button) => {
-    if (button.className.includes(activeButtonClass)) {
-      previousButton = button;
-    }
-  });
-
-  return previousButton;
-};
+const findPreviousActive = () =>
+  Array.from(filterButtons).find((button) =>
+    button.className.includes(ACTIVE_BUTTON_CLASS),
+  );
 
 const renderFilteredPhotos = (filterId) => {
   const filterKey = filterId.replace('filter-', '');
-  filters[filterKey](photos);
+  filters[filterKey](fetched.photos);
 };
 
-const filterButtonClick = (evt) => {
+const filterButtonClickListener = (evt) => {
   const previousActiveButton = findPreviousActive();
 
   if (previousActiveButton) {
-    removeClass(findPreviousActive(), activeButtonClass);
+    removeClass(findPreviousActive(), ACTIVE_BUTTON_CLASS);
   }
 
-  addClass(evt.target, activeButtonClass);
+  addClass(evt.target, ACTIVE_BUTTON_CLASS);
 
-  clearPreviews(picturesList);
+  clearPreviews(pictures);
 
   const { id } = evt.target;
 
   debounce(renderFilteredPhotos, RE_RENDER_DELAY)(id);
 };
 
-filterButtons.forEach((button) =>
-  button.addEventListener('click', filterButtonClick),
-);
+const addFiltersButtonsEvtListeners = () => {
+  filterButtons.forEach((button) =>
+    button.addEventListener('click', filterButtonClickListener),
+  );
+};
 
 const showFilters = () => {
   removeClass(filterContainer, 'img-filters--inactive');
 };
 
-export { showFilters };
+export {
+  showFilters,
+  filterButtonClickListener,
+  addFiltersButtonsEvtListeners
+};

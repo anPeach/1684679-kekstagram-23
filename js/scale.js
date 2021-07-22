@@ -17,7 +17,7 @@ const changeValue = () => {
   img.style.transform = `scale(${value / 100})`;
 };
 
-const smallerClick = () => {
+const smallerClickListener = () => {
   const value = getValue(scaleValue);
 
   if (value === MIN_SCALE_VALUE) {
@@ -31,7 +31,7 @@ const smallerClick = () => {
   changeValue();
 };
 
-const biggerClick = () => {
+const biggerClickListener = () => {
   const value = getValue(scaleValue);
 
   if (value === MAX_SCALE_VALUE) {
@@ -52,7 +52,20 @@ const setDefaultScale = () => {
   img.style.transform = 'scale(1)';
 };
 
-scaleSmaller.addEventListener('click', smallerClick);
-scaleBigger.addEventListener('click', biggerClick);
+const addScaleSmallerButtonEvtListener = () =>
+  scaleSmaller.addEventListener('click', smallerClickListener);
 
-export {setDefaultScale};
+const addScaleBiggerButtonEvtListener = () =>
+  scaleBigger.addEventListener('click', biggerClickListener);
+
+const removeScaleControlsEvtListeners = () => {
+  scaleSmaller.removeEventListener('click', smallerClickListener);
+  scaleBigger.removeEventListener('click', biggerClickListener);
+};
+
+export {
+  setDefaultScale,
+  addScaleSmallerButtonEvtListener,
+  addScaleBiggerButtonEvtListener,
+  removeScaleControlsEvtListeners
+};

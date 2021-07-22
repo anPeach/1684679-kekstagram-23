@@ -6,16 +6,19 @@ import { renderPhotos } from './photo-preview.js';
 import { clearForm, setPhotoFormSubmit } from './form.js';
 import { hidePopup, removeClass } from './utils.js';
 import { addCloseSuccessMessageEvtListener } from './messages.js';
-import { showFilters } from './filters.js';
+import { addFiltersButtonsEvtListeners, showFilters } from './filters.js';
+import { addUploadPhotoEvtListener } from './upload-photo.js';
 
-export let fetched = [];
+export const fetched = {};
 const form = document.querySelector('.img-upload__overlay');
 const successMessage = document.querySelector('.success');
 
 getPhotos((photos) => {
-  fetched = photos;
+  fetched.photos = photos;
   renderPhotos(photos);
   showFilters();
+  addFiltersButtonsEvtListeners();
+  addUploadPhotoEvtListener();
 });
 
 setPhotoFormSubmit(() => {

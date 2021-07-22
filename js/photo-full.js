@@ -1,7 +1,7 @@
 import {
   addClass,
-  closePopup,
   findPhoto,
+  hidePopup,
   removeClass,
   renderComments,
   showPopup
@@ -21,7 +21,7 @@ const commentsShownCount = fullPicture.querySelector('.comments-shown-count');
 
 let currentOpenedPhoto = {};
 
-const loadMoreClick = () => {
+const loadMoreClickListener = () => {
   const amountShownComments = commentsList.length + COMMENTS_STEP;
 
   const commentsToRender = currentOpenedPhoto.comments.slice(
@@ -37,8 +37,6 @@ const loadMoreClick = () => {
     addClass(commentLoader, 'hidden');
   }
 };
-
-commentLoader.addEventListener('click', loadMoreClick);
 
 const renderFullPhoto = ({ url, likes, description, comments }) => {
   const img = fullPicture.querySelector('.big-picture__img>img');
@@ -66,8 +64,22 @@ const renderFullPhoto = ({ url, likes, description, comments }) => {
   commentsContainer.replaceChildren(renderComments(commentsToRender));
 };
 
+const closePopupEscListener = (evt) => {
+  if (evt.code === 'Escape') {
+    hidePopup(fullPicture);
+    document.removeEventListener('keydown', closePopupEscListener);
+    commentLoader.removeEventListener('click', loadMoreClickListener);
+  }
+};
+
+const closeButtonClickListener = () => {
+  hidePopup(fullPicture);
+  closeButton.removeEventListener('click', closeButtonClickListener);
+  commentLoader.removeEventListener('click', loadMoreClickListener);
+};
+
 const showPicture = (evt) => {
-  const foundedPhoto = findPhoto(evt, fetched);
+  const foundedPhoto = findPhoto(evt, fetched.photos);
 
   if (!foundedPhoto) {
     return;
@@ -77,12 +89,12 @@ const showPicture = (evt) => {
   currentOpenedPhoto = foundedPhoto;
 
   showPopup(fullPicture);
+
+  commentLoader.addEventListener('click', loadMoreClickListener);
+  document.addEventListener('keydown', closePopupEscListener);
+  closeButton.addEventListener('click', closeButtonClickListener);
 };
 
 pictureContainer.addEventListener('click', showPicture);
-
-document.addEventListener('keydown', closePopup(fullPicture));
-
-closeButton.addEventListener('click', closePopup(fullPicture));
 
 export { currentOpenedPhoto };

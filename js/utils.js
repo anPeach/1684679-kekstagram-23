@@ -77,16 +77,6 @@ const hidePopup = (shownNode) => {
   addClass(shownNode, 'hidden');
 };
 
-const closePopup = (node) => (evt) => {
-  if (evt.code === 'Escape') {
-    hidePopup(node);
-  }
-
-  if (evt.type === 'click') {
-    hidePopup(node);
-  }
-};
-
 const showAlert = (message) => {
   const alertContainer = document.createElement('div');
   alertContainer.style.zIndex = 100;
@@ -121,10 +111,13 @@ const getPhotoRate = (photo) => photo.comments.length;
 const getRatedPhotos = (photos) =>
   photos.slice().sort((pic1, pic2) => getPhotoRate(pic2) - getPhotoRate(pic1));
 
+const setBorderColor = (node, color) => {
+  node.style.borderColor = color;
+};
+
 export {
   addClass,
   clearPreviews,
-  closePopup,
   findPhoto,
   generateId,
   getRandomNumber,
@@ -136,5 +129,6 @@ export {
   showPopup,
   shuffle,
   getPhotoRate,
-  getRatedPhotos
+  getRatedPhotos,
+  setBorderColor
 };

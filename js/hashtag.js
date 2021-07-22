@@ -1,4 +1,5 @@
 import { HASHTAG_VALIDATION_REGEXP, MAX_HASHTAGS_COUNT } from './constants.js';
+import { setBorderColor } from './utils.js';
 
 const hashtagInput = document.querySelector('.text__hashtags');
 
@@ -7,25 +8,27 @@ let prevHashtagValue = '';
 const isUniqueHashtags = (hashtags) => {
   const upperCaseHashtags = hashtags.map((hashtag) => hashtag.toUpperCase());
 
-  const unique = [...new Set(upperCaseHashtags)];
+  const uniques = [...new Set(upperCaseHashtags)];
 
-  return unique.length !== upperCaseHashtags.length;
+  return uniques.length !== upperCaseHashtags.length;
 };
 
 const hasValidationErrors = (hashtags) =>
-  hashtags.filter((hashtag) => !HASHTAG_VALIDATION_REGEXP.test(hashtag)).length;
+  hashtags.every((hashtag) => !HASHTAG_VALIDATION_REGEXP.test(hashtag));
 
 const isMaximumHashtagsCount = (hashtags) =>
   hashtags.length > MAX_HASHTAGS_COUNT;
 
 const setUniqueError = () => {
   hashtagInput.setCustomValidity('Хэштеги должны быть уникальны.');
+  setBorderColor(hashtagInput, 'red');
 };
 
 const setValidationError = () => {
   hashtagInput.setCustomValidity(
     'Хэштег должен начинаться с #, состоять только из букв и цифр. Хэштеги должны быть разделены пробелом.',
   );
+  setBorderColor(hashtagInput, 'red');
 };
 
 const setHashtagsCountError = () => {
@@ -33,12 +36,20 @@ const setHashtagsCountError = () => {
     'Максимально возможное количество хэштегов: 5.',
   );
   hashtagInput.value = prevHashtagValue;
+  setBorderColor(hashtagInput, 'red');
 };
 
-const inputChange = () => {
+const isHashtagsEmpty = (hashtags) => hashtags.filter(Boolean);
+
+const inputChangeListener = () => {
   const hashtags = hashtagInput.value.trim().split(' ');
 
   hashtagInput.setCustomValidity('');
+  setBorderColor(hashtagInput, '');
+
+  if (!isHashtagsEmpty(hashtags).length) {
+    return;
+  }
 
   hasValidationErrors(hashtags) && setValidationError();
   isUniqueHashtags(hashtags) && setUniqueError();
@@ -48,4 +59,17 @@ const inputChange = () => {
   prevHashtagValue = hashtagInput.value;
 };
 
-hashtagInput.addEventListener('input', inputChange);
+const clearHashtagsOptions = () => {
+  hashtagInput.setCustomValidity('');
+  setBorderColor(hashtagInput, '');
+  hashtagInput.value = '';
+};
+
+const addHashtagInputEvtListener = () =>
+  hashtagInput.addEventListener('input', inputChangeListener);
+
+const removeHashtagsInputEvtListener = () => {
+  hashtagInput.removeEventListener('input', inputChangeListener);
+};
+
+export { inputChangeListener, addHashtagInputEvtListener, removeHashtagsInputEvtListener, clearHashtagsOptions };
