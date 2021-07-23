@@ -17,7 +17,8 @@ const pictures = picturesContainer.getElementsByTagName('a');
 
 const ACTIVE_BUTTON_CLASS = 'img-filters__button--active';
 
-const randomizePhotos = (photos) => shuffle(photos).slice(0, 10);
+const randomizePhotos = (photos) =>
+  shuffle(photos).slice(0, AMOUNT_FILTERED_PHOTOS);
 
 const discussedRenderPhotos = (photos) =>
   getRatedPhotos(photos).slice(0, AMOUNT_FILTERED_PHOTOS);
@@ -38,25 +39,30 @@ const renderFilteredPhotos = (filterId) => {
   filters[filterKey](fetched.photos);
 };
 
-const filterButtonClickListener = (evt) => {
-  const previousActiveButton = findPreviousActive();
-
-  if (previousActiveButton) {
-    removeClass(findPreviousActive(), ACTIVE_BUTTON_CLASS);
-  }
-
-  addClass(evt.target, ACTIVE_BUTTON_CLASS);
-
+const filterButtonClickListener = (id) => {
   clearPreviews(pictures);
 
-  const { id } = evt.target;
-
-  debounce(renderFilteredPhotos, RE_RENDER_DELAY)(id);
+  renderFilteredPhotos(id);
 };
+
+const debouncedFilterButtonClick = debounce(
+  filterButtonClickListener,
+  RE_RENDER_DELAY,
+);
 
 const addFiltersButtonsEvtListeners = () => {
   filterButtons.forEach((button) =>
-    button.addEventListener('click', filterButtonClickListener),
+    button.addEventListener('click', (evt) => {
+      const previousActiveButton = findPreviousActive();
+
+      if (previousActiveButton) {
+        removeClass(findPreviousActive(), ACTIVE_BUTTON_CLASS);
+      }
+
+      addClass(evt.target, ACTIVE_BUTTON_CLASS);
+
+      debouncedFilterButtonClick(evt.target.id);
+    }),
   );
 };
 
