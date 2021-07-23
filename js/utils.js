@@ -101,9 +101,9 @@ const showAlert = (message) => {
 const shuffle = (array) => array.slice().sort(() => Math.random() - 0.5);
 
 const clearPreviews = (photos) => {
-  for (let index = photos.length - 1; index >= 0; index--) {
-    photos[index].remove();
-  }
+  Array.from(photos).forEach((photo) => {
+    photo.remove();
+  });
 };
 
 const getPhotoRate = (photo) => photo.comments.length;

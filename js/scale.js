@@ -1,4 +1,4 @@
-import { MIN_SCALE_VALUE, MAX_SCALE_VALUE } from './constants.js';
+import { MIN_SCALE_VALUE, MAX_SCALE_VALUE, SCALE_DIFFERENCE } from './constants.js';
 
 const uploadScale = document.querySelector('.img-upload__scale');
 
@@ -24,7 +24,7 @@ const smallerClickListener = () => {
     return;
   }
 
-  const totalValue = value - 25;
+  const totalValue = value - SCALE_DIFFERENCE;
 
   scaleValue.value = `${totalValue}%`;
 
@@ -38,7 +38,7 @@ const biggerClickListener = () => {
     return;
   }
 
-  const totalValue = value + 25;
+  const totalValue = value + SCALE_DIFFERENCE;
 
   scaleValue.value = `${totalValue}%`;
 

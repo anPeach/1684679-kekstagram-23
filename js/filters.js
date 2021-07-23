@@ -1,4 +1,4 @@
-import { RE_RENDER_DELAY } from './constants.js';
+import { AMOUNT_FILTERED_PHOTOS, RE_RENDER_DELAY } from './constants.js';
 import { fetched } from './main.js';
 import { renderPhotos } from './photo-preview.js';
 import {
@@ -20,7 +20,7 @@ const ACTIVE_BUTTON_CLASS = 'img-filters__button--active';
 const randomizePhotos = (photos) => shuffle(photos).slice(0, 10);
 
 const discussedRenderPhotos = (photos) =>
-  getRatedPhotos(photos).slice(0, 10);
+  getRatedPhotos(photos).slice(0, AMOUNT_FILTERED_PHOTOS);
 
 const filters = {
   default: (photos) => renderPhotos(photos),
