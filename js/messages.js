@@ -16,7 +16,7 @@ const errorMessage = templateError.cloneNode(true);
 const buttonError = errorMessage.querySelector('.error__button');
 addClass(errorMessage, 'hidden');
 
-const closeSuccessMessage = (evt) => {
+const closeSuccessMessageListener = (evt) => {
   const isEscape = evt.code === 'Escape';
   const isButton = evt.currentTarget.className === 'success__button';
   const isOutOfBlock =
@@ -25,36 +25,40 @@ const closeSuccessMessage = (evt) => {
 
   if (isEscape || isButton || isOutOfBlock) {
     addClass(successMessage, 'hidden');
+    buttonSuccess.removeEventListener('click', closeSuccessMessageListener);
+    document.removeEventListener('keydown', closeSuccessMessageListener);
+    document.removeEventListener('click', closeSuccessMessageListener);
   }
 };
 
 document.body.appendChild(successMessage);
 
-buttonSuccess.addEventListener('click', closeSuccessMessage);
-document.addEventListener('keydown', closeSuccessMessage);
+const addCloseSuccessMessageEvtListener = () => {
+  document.addEventListener('click', closeSuccessMessageListener);
+  buttonSuccess.addEventListener('click', closeSuccessMessageListener);
+  document.addEventListener('keydown', closeSuccessMessageListener);
+};
 
-const addCloseSuccessMessageEvtListener = () =>
-  document.addEventListener('click', closeSuccessMessage);
-
-
-const closeErrorMessage = (evt) => {
+const closeErrorMessageListener = (evt) => {
   const isEscape = evt.code === 'Escape';
   const isButton = evt.currentTarget.className === 'error__button';
   const isOutOfBlock =
-    evt.target.className === 'error' &&
-    evt.target.className !== 'error__inner';
+    evt.target.className === 'error' && evt.target.className !== 'error__inner';
 
   if (isEscape || isButton || isOutOfBlock) {
-    addClass(successMessage, 'hidden');
+    addClass(errorMessage, 'hidden');
+    buttonError.removeEventListener('click', closeErrorMessageListener);
+    document.removeEventListener('click', closeErrorMessageListener);
+    document.removeEventListener('keydown', closeErrorMessageListener);
   }
 };
 
 document.body.appendChild(errorMessage);
 
-buttonError.addEventListener('click', closeErrorMessage);
-document.addEventListener('keydown', closeErrorMessage);
-
-const addCloseErrorMessageEvtListener = () =>
-  document.addEventListener('click', closeErrorMessage);
+const addCloseErrorMessageEvtListener = () => {
+  document.addEventListener('click', closeErrorMessageListener);
+  buttonError.addEventListener('click', closeErrorMessageListener);
+  document.addEventListener('keydown', closeErrorMessageListener);
+};
 
 export { addCloseSuccessMessageEvtListener, addCloseErrorMessageEvtListener };
