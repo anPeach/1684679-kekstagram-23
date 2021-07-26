@@ -21,7 +21,7 @@ const commentsShownCount = fullPicture.querySelector('.comments-shown-count');
 
 let currentOpenedPhoto = {};
 
-const loadMoreClickListener = () => {
+const onLoadMoreClick = () => {
   const amountShownComments = commentsList.length + COMMENTS_STEP;
 
   const commentsToRender = currentOpenedPhoto.comments.slice(
@@ -68,14 +68,15 @@ const closePopupEscListener = (evt) => {
   if (evt.code === 'Escape') {
     hidePopup(fullPicture);
     document.removeEventListener('keydown', closePopupEscListener);
-    commentLoader.removeEventListener('click', loadMoreClickListener);
+    commentLoader.removeEventListener('click', onLoadMoreClick);
   }
 };
 
 const closeButtonClickListener = () => {
   hidePopup(fullPicture);
   closeButton.removeEventListener('click', closeButtonClickListener);
-  commentLoader.removeEventListener('click', loadMoreClickListener);
+  commentLoader.removeEventListener('click', onLoadMoreClick);
+  document.removeEventListener('keydown', closePopupEscListener);
 };
 
 const showPicture = (evt) => {
@@ -90,7 +91,7 @@ const showPicture = (evt) => {
 
   showPopup(fullPicture);
 
-  commentLoader.addEventListener('click', loadMoreClickListener);
+  commentLoader.addEventListener('click', onLoadMoreClick);
   document.addEventListener('keydown', closePopupEscListener);
   closeButton.addEventListener('click', closeButtonClickListener);
 };

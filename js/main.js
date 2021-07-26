@@ -17,6 +17,7 @@ getPhotos((photos) => {
   fetched.photos = photos;
   renderPhotos(photos);
   showFilters();
+}).finally(()=> {
   addFiltersButtonsEvtListeners();
   addUploadPhotoEvtListener();
 });

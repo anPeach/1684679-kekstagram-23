@@ -13,7 +13,7 @@ const setLengthError = () => {
   setBorderColor(commentTextarea, 'red');
 };
 
-const changeTextareaListener = () => {
+const onChangeTextarea = () => {
   commentTextarea.setCustomValidity('');
   setBorderColor(commentTextarea, '');
 
@@ -29,10 +29,10 @@ const clearCommentsOptions = () => {
 };
 
 const addCommentTextareaEvtListener = () =>
-  commentTextarea.addEventListener('input', changeTextareaListener);
+  commentTextarea.addEventListener('input', onChangeTextarea);
 
 const removeCommentTextareaEvtListener = () =>
-  commentTextarea.removeEventListener('input', changeTextareaListener);
+  commentTextarea.removeEventListener('input', onChangeTextarea);
 
 
-export { changeTextareaListener, addCommentTextareaEvtListener, removeCommentTextareaEvtListener, clearCommentsOptions };
+export { addCommentTextareaEvtListener, removeCommentTextareaEvtListener, clearCommentsOptions };

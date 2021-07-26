@@ -39,14 +39,14 @@ const renderFilteredPhotos = (filterId) => {
   filters[filterKey](fetched.photos);
 };
 
-const filterButtonClickListener = (id) => {
+const onFilterButtonClick = (id) => {
   clearPreviews(pictures);
 
   renderFilteredPhotos(id);
 };
 
 const debouncedFilterButtonClick = debounce(
-  filterButtonClickListener,
+  onFilterButtonClick,
   RE_RENDER_DELAY,
 );
 
@@ -72,6 +72,5 @@ const showFilters = () => {
 
 export {
   showFilters,
-  filterButtonClickListener,
   addFiltersButtonsEvtListeners
 };
