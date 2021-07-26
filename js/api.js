@@ -1,9 +1,18 @@
 import { SERVER_PATH } from './constants.js';
+import { addCloseErrorLoadDataMessageListener, message } from './messages.js';
+import { removeClass } from './utils.js';
+
+const errorLoadDataMessage = document.querySelector('.error-load');
 
 const getPhotos = (onSuccess) =>
   fetch(`${SERVER_PATH}/data`)
     .then((response) => response.json())
-    .then(onSuccess);
+    .then(onSuccess)
+    .catch(() => {
+      message.setMessage('errorLoad');
+      removeClass(errorLoadDataMessage, 'hidden');
+      addCloseErrorLoadDataMessageListener();
+    });
 
 const sendData = (onSuccess, onFail, body) => {
   fetch(SERVER_PATH, {

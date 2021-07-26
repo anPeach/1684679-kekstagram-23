@@ -5,7 +5,7 @@ import './comments.js';
 import { hidePopup, removeClass, showAlert } from './utils.js';
 import { sendData } from './api.js';
 import { clearEffects, removeEffectsListEvtListener } from './effects.js';
-import { addCloseErrorMessageEvtListener } from './messages.js';
+import { addCloseErrorMessageEvtListener, message } from './messages.js';
 import { removeScaleControlsEvtListeners, setDefaultScale } from './scale.js';
 import { clearCommentsOptions, removeCommentTextareaEvtListener } from './comments.js';
 import { clearHashtagsOptions, removeHashtagsInputEvtListener } from './hashtag.js';
@@ -33,8 +33,12 @@ const setPhotoFormSubmit = (onSuccess) => {
     evt.preventDefault();
 
     sendData(
-      () => onSuccess(),
       () => {
+        message.setMessage('success');
+        onSuccess();
+      },
+      () => {
+        message.setMessage('error');
         showAlert('Не удалось отправить форму. Попробуйте ещё раз');
         clearForm();
         hidePopup(imgUploadContainer);
@@ -46,7 +50,7 @@ const setPhotoFormSubmit = (onSuccess) => {
   });
 };
 
-const closeFormListener = (evt) => {
+const onCloseForm = (evt) => {
   if (
     document.activeElement === hashtagInput ||
     document.activeElement === commentInput
@@ -57,12 +61,12 @@ const closeFormListener = (evt) => {
   if (evt.code === 'Escape') {
     clearForm();
     hidePopup(imgUploadContainer);
-    document.removeEventListener('keydown', closeFormListener);
+    document.removeEventListener('keydown', onCloseForm);
   }
 };
 
 const addCloseFormListener = () => {
-  document.addEventListener('keydown', closeFormListener);
+  document.addEventListener('keydown', onCloseForm);
 };
 
-export { setPhotoFormSubmit, clearForm, addCloseFormListener };
+export { setPhotoFormSubmit, clearForm, addCloseFormListener, onCloseForm };

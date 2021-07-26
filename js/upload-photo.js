@@ -1,5 +1,5 @@
 import { hidePopup, showPopup } from './utils.js';
-import { addCloseFormListener, clearForm } from './form.js';
+import { addCloseFormListener, clearForm, onCloseForm } from './form.js';
 import { addCommentTextareaEvtListener } from './comments.js';
 import { addEffectsListEvtListener } from './effects.js';
 import { addHashtagInputEvtListener } from './hashtag.js';
@@ -12,10 +12,11 @@ const uploadInput = document.querySelector('#upload-file');
 const cancelButton = document.querySelector('#upload-cancel');
 const imgUploadContainer = document.querySelector('.img-upload__overlay');
 
-const closeFormListener = () => {
+const closeUploadPhotoListener = () => {
   clearForm();
   hidePopup(imgUploadContainer);
-  cancelButton.removeEventListener('click', closeFormListener);
+  cancelButton.removeEventListener('click', closeUploadPhotoListener);
+  document.removeEventListener('keydown', onCloseForm);
 };
 
 const uploadInputChange = () => {
@@ -26,7 +27,7 @@ const uploadInputChange = () => {
   addHashtagInputEvtListener();
   addScaleSmallerButtonEvtListener();
   addScaleBiggerButtonEvtListener();
-  cancelButton.addEventListener('click', closeFormListener);
+  cancelButton.addEventListener('click', closeUploadPhotoListener);
 };
 
 const addUploadPhotoEvtListener = () =>
